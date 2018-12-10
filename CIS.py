@@ -238,7 +238,31 @@ def normal_ordering(results, sign, i):
         return 
     # Move creator on the right to left 
     if locus_of_right_creator(results[i])==-1:
-        pass
+        # Move annihilater on the left to the right
+        if locus_of_left_annihilator(results[i])==-1:
+            print "Error !!!!!!"   
+        else:
+            n = locus_of_left_annihilator(results[i])
+            Delta1 = (results[i][n+1].op_symbol=='f') & (results[i][n].op_symbol=='f+')
+            Delta2 = (results[i][n+1].op_symbol=='f+') & (results[i][n].op_symbol=='f')
+            print Delta1,Delta2, n
+            if Delta1 | Delta2:
+                # add new string to both resutls and sign
+                tmp = results[i][:]
+                tmp.append(KroneckerDelta(tmp[n+1].state,tmp[n].state))
+                tmp.pop(n+1)
+                tmp.pop(n)
+                if tmp:
+                    results.append(tmp)
+                    tmp = sign[i]
+                    sign.append(tmp)
+                # switch elements
+                results[i][n+1], results[i][n] = results[i][n], results[i][n+1]
+                sign[i]=sign[i]*-1
+            else:
+                # switch elements
+                results[i][n+1], results[i][n] = results[i][n], results[i][n+1]
+                sign[i]=sign[i]*-1
     else:
         n = locus_of_right_creator(results[i]) 
         Delta1 = (results[i][n-1].op_symbol=='f') & (results[i][n].op_symbol=='f+')
@@ -264,32 +288,7 @@ def normal_ordering(results, sign, i):
             sign[i]=sign[i]*-1
             #print(sign[i],results[i])
             #normal_ordering(results, sign, i)
-   
-    # Move annihilater on the left to the right
-    if locus_of_left_annihilator(results[i])==-1:
-        pass
-    else:
-        n = locus_of_left_annihilator(results[i])
-        Delta1 = (results[i][n+1].op_symbol=='f') & (results[i][n].op_symbol=='f+')
-        Delta2 = (results[i][n+1].op_symbol=='f+') & (results[i][n].op_symbol=='f')
-        print Delta1,Delta2, n
-        if Delta1 | Delta2:
-            # add new string to both resutls and sign
-            tmp = results[i][:]
-            tmp.append(KroneckerDelta(tmp[n+1].state,tmp[n].state))
-            tmp.pop(n+1)
-            tmp.pop(n)
-            if tmp:
-                results.append(tmp)
-                tmp = sign[i]
-                sign.append(tmp)
-            # switch elements
-            results[i][n+1], results[i][n] = results[i][n], results[i][n+1]
-            sign[i]=sign[i]*-1
-        else:
-            # switch elements
-            results[i][n+1], results[i][n] = results[i][n], results[i][n+1]
-            sign[i]=sign[i]*-1
+     
     normal_ordering(results, sign, i)    
 
 # Generate RPA equations
