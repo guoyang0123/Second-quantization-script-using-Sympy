@@ -128,11 +128,11 @@ def is_normal_ordered(string1):
     #print "testing NA %d" %NA    
     if (NA==NAnnihal) & (NC==NCreator):
         print(string1)
-        print "This string contains %d creators and %d annihilators, which is normal ordered" %(NCreator, NAnnihal)
+        print ("This string contains %d creators and %d annihilators, which is normal ordered" %(NCreator, NAnnihal))
         return True
     else:
         print(string1)
-        print "This string contains %d creators and %d annihilators, which is NOT! normal ordered" %(NCreator, NAnnihal)
+        print ("This string contains %d creators and %d annihilators, which is NOT! normal ordered" %(NCreator, NAnnihal))
         return False
 
 #Judge the right hand side of a string, no "creators" on the right side.
@@ -240,12 +240,12 @@ def normal_ordering(results, sign, i):
     if locus_of_right_creator(results[i])==-1:
         # Move annihilater on the left to the right
         if locus_of_left_annihilator(results[i])==-1:
-            print "Error !!!!!!"   
+            print ("Error !!!!!!")
         else:
             n = locus_of_left_annihilator(results[i])
             Delta1 = (results[i][n+1].op_symbol=='f') & (results[i][n].op_symbol=='f+')
             Delta2 = (results[i][n+1].op_symbol=='f+') & (results[i][n].op_symbol=='f')
-            print Delta1,Delta2, n
+            print (Delta1,Delta2, n)
             if Delta1 | Delta2:
                 # add new string to both resutls and sign
                 tmp = results[i][:]
@@ -299,10 +299,14 @@ def main():
     filename = os.path.splitext(base)[0]
     fo = open(filename+'.tex', "w")
 
-    fo.write("\documentclass{article}\n")
-    fo.write("\usepackage[fleqn]{amsmath}\n")
-    fo.write("\usepackage{latexsym, amsfonts}\n")
-    fo.write("\usepackage{pdflscape}\n")
+    fo.write(r'\documentclass{article}')
+    fo.write("\n")
+    fo.write(r'\usepackage[fleqn]{amsmath}')
+    fo.write("\n")
+    fo.write(r'\usepackage{latexsym, amsfonts}')
+    fo.write("\n")
+    fo.write(r'\usepackage{pdflscape}')
+    fo.write("\n")
     fo.write(r'\parindent=0pt\relax')
     fo.write("\n")
     fo.write(r'\begin{document}')
